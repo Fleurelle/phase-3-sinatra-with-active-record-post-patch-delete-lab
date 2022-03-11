@@ -1,3 +1,5 @@
+require 'pry'
+
 class ApplicationController < Sinatra::Base
   set default_content_type: "application/json"
   
@@ -21,6 +23,31 @@ class ApplicationController < Sinatra::Base
     # see the BakedGood class for the  method definition of `.by_price`
     baked_good = BakedGood.by_price.first
     baked_good.to_json
+  end
+
+  post '/baked_goods' do
+    # binding.pry
+    bakedGood = BakedGood.create(
+      "name": params[:name],
+      "price": params[:price],
+      "bakery_id": params[:bakery_id]
+    )
+    bakedGood.to_json
+  end
+
+  patch '/bakeries/:id' do
+    # binding.pry
+    bakery = Bakery.find(params[:id])
+    bakery.update(
+      "name": params[:name]
+    )
+    bakery.to_json
+  end
+
+  delete '/baked_goods/:id' do
+    # binding.pry
+    bakedgoods = BakedGood.find(params[:id])
+    bakedgoods.destroy
   end
 
 end
